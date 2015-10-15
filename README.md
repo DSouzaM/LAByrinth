@@ -12,12 +12,3 @@ This project is a labyrinth/maze game in which a “ball” is rolled around a m
 
 
 Insert UML Diagram here
-123456
-
-d;lkvhdfhlkgjsbdkhksad
-654321
-
-
-ABCDEFG
-
-// This will cause a merge conflict. //
