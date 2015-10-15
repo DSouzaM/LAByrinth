@@ -1,5 +1,4 @@
 # LAByrinth
-Group project for SE 101
 
 Group Members
 Matt D'Souza
