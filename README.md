@@ -1,4 +1,4 @@
-# LAByrinth
+﻿# LAByrinth
 
 Group Members
 Matt D'Souza
@@ -16,3 +16,4 @@ Insert UML Diagram here
 
 ABCDEFG
 
+// This will cause a merge conflict. //
