@@ -1,5 +1,5 @@
 extern "C"{
-#include "launchpad_led.h"
+#include "led.h"
 }
 
 void setup() {
@@ -7,8 +7,13 @@ void setup() {
 }
 
 void loop() {
-	toggle_red_led(1);
-	delay(500);
-	toggle_red_led(0);
-	delay(500);
+	for (int i = 0; i < 4; i++) {
+		set_led(i, HIGH);
+		delay(10);
+	}
+	
+	for (int i = 3; i >= 0; i--) {
+		set_led(i, LOW);
+		delay(10);	
+	}
 }
