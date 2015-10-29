@@ -1,19 +1,24 @@
-extern "C"{
+extern "C" {
+#include <OrbitBoosterPackDefs.h>
 #include "led.h"
 }
 
 void setup() {
 	setup_led();
+	Serial.begin(9600);
 }
 
 void loop() {
-	for (int i = 0; i < 4; i++) {
+	int i;
+	for (i = 0; i < 4; i++) {
 		set_led(i, HIGH);
-		delay(10);
+		Serial.write(i+'0');
+		delay(100);
 	}
 	
-	for (int i = 3; i >= 0; i--) {
+	for (i = 3; i >= 0; i--) {
 		set_led(i, LOW);
-		delay(10);	
+		Serial.write(i+'0');
+		delay(100);	
 	}
 }
