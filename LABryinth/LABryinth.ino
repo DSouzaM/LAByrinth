@@ -1,22 +1,14 @@
-#include "led.h"
-
-Led led;
+extern "C"{
+#include "launchpad_led.h"
+}
 
 void setup() {
-	// insert code here
+	setup_led();
 }
 
 void loop() {
-	led.toggle_red_led(1);
+	toggle_red_led(1);
 	delay(500);
-	led.toggle_green_led(1);
-	delay(500);
-	led.toggle_blue_led(1);
-	delay(500);
-	led.toggle_red_led(0);
-	delay(500);
-	led.toggle_green_led(0);
-	delay(500);
-	led.toggle_blue_led(0);
+	toggle_red_led(0);
 	delay(500);
 }
