@@ -1,7 +1,7 @@
 #include <OrbitBoosterPackDefs.h>
 #include "Energia.h"
 
-#include "switch,h"
+#include "switch.h"
 
 static const char SWITCHPORTS[] = {SWT1Port, SWT2Port};
 static const char SWITCHES[] = {SWT1, SWT2};
