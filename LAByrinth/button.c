@@ -2,8 +2,8 @@
 #include "Energia.h"
 #include "button.h"
 
-static const int BUTTONPORTS[] = {BTN1Port, BTN2Port};
-static const int BUTTONS[] = {BTN1, BTN2};
+static const char BUTTONPORTS[] = {BTN1Port, BTN2Port};
+static const char BUTTONS[] = {BTN1, BTN2};
 
 
 void setup_button() {
@@ -17,6 +17,6 @@ void setup_button() {
 	}
 }
 
-int get_button(int button) {
+char get_button(char button) {
 	return (GPIOPinRead(BUTTONPORTS[button], BUTTONS[button]) != 0);
 }
