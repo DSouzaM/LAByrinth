@@ -2,6 +2,7 @@ extern "C" {
 #include "OrbitBoosterPackDefs.h"
 #include "led.h"
 #include "button.h"
+#include "switch.h"
 }
 
 void DeviceInit();
@@ -17,7 +18,6 @@ void setup() {
 
 }
 void loop() {
-	Serial.println(get_button(1));
 	
 	delay(50);
 
