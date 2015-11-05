@@ -12,3 +12,10 @@ This project is a labyrinth/maze game in which a “ball” is rolled around a m
 
 
 Insert UML Diagram here
+
+Todo:
+* Accelerometer support
+* Potentiometer support
+* Display routines
+* Clock support for timing
+* EEPROM support to store high scores and stuff
