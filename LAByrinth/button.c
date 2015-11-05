@@ -1,5 +1,6 @@
 #include <OrbitBoosterPackDefs.h>
 #include "Energia.h"
+
 #include "button.h"
 
 static const char BUTTONPORTS[] = {BTN1Port, BTN2Port};
@@ -18,5 +19,5 @@ void setup_button() {
 }
 
 char get_button(char button) {
-	return (GPIOPinRead(BUTTONPORTS[button], BUTTONS[button]) != 0);
+	return GPIOPinRead(BUTTONPORTS[button], BUTTONS[button]);
 }

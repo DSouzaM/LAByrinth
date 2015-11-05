@@ -1,5 +1,6 @@
 #include <OrbitBoosterPackDefs.h>
 #include "Energia.h"
+
 #include "led.h"
 
 static const char LEDPORTS[] = {LED1Port, LED2Port, LED3Port, LED4Port};
@@ -16,9 +17,3 @@ void setup_led() {
 void set_led(char led, char state) {
 	GPIOPinWrite(LEDPORTS[led], LEDS[led], state ? LEDS[led] : LOW);
 }
-
-char get_led(char led) {
-	return (GPIOPinRead(LEDPORTS[led], LEDS[led]) != 0);
-}
-
-
