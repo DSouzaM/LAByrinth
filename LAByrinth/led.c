@@ -15,3 +15,9 @@ void setup_led() {
 void set_led(int led, char state) {
 	GPIOPinWrite(LEDPORTS[led], LEDS[led], state ? LEDS[led] : LOW);
 }
+
+void get_led(int led) {
+	return (GPIOPinRead(LEDPORTS[led], LEDS[led]) != 0);
+}
+
+
