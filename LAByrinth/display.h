@@ -11,6 +11,6 @@ void display_clear();
 int display_get_x();
 int display_get_y();
 void display_put_string(const char* string, int x, int y);
-void display_put_bitmap(const char bitmap[X_MAX][Y_MAX]);
+void display_put_bitmap(const char bitmap[Y_MAX][X_MAX]);
 
 #endif
