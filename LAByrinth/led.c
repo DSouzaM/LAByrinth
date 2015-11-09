@@ -8,10 +8,8 @@ static const int LEDS[] = {LED1, LED2, LED3, LED4};
 
 void setup_led() {
 	int i;
-	for (i = 0; i < 4; i++) {
-		GPIOPadConfigSet(LEDPORTS[i], LEDS[i], GPIO_STRENGTH_8MA_SC, GPIO_PIN_TYPE_STD);
+	for (i = 0; i < 4; i++)
 		GPIOPinTypeGPIOOutput(LEDPORTS[i], LEDS[i]);
-	}
 }
 
 void set_led(int led, int state) {

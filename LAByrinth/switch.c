@@ -7,10 +7,9 @@ static const int SWITCHPORTS[] = {SWT1Port, SWT2Port};
 static const int SWITCHES[] = {SWT1, SWT2};
 
 void setup_switch() {
-	GPIOPadConfigSet(SWTPort, SWT1 | SWT2, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPD);
 	GPIOPinTypeGPIOInput(SWTPort, SWT1 | SWT2);
 }
 
 int get_switch(int swtch) {
-	return GPIOPinRead(SWITCHPORTS[swtch], SWITCHES[swtch]);
+	return GPIOPinRead(SWTPort, SWITCHES[swtch]);
 }

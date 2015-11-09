@@ -2,6 +2,7 @@ extern "C" {
 #include "OrbitBoosterPackDefs.h"
 #include "button.h"
 #include "led.h"
+#include "switch.h"
 }
 
 void setup() {
@@ -9,8 +10,8 @@ void setup() {
 	setup_button();
 }
 void loop() {
-	int i;
-	for (i = 0; i < 4; i++)
-		set_led(i, 0);
-	set_led((get_button(1) ? 2 : 0) + (get_button(0) ? 1 : 0), 1);
+	set_led(0, get_button(0)); 
+	set_led(1, get_button(1)); 
+	set_led(2, get_switch(0)); 
+	set_led(3, get_switch(1)); 
 }

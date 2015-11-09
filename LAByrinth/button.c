@@ -9,9 +9,8 @@ static const int BUTTONS[] = {BTN1, BTN2};
 
 void setup_button() {
 	int i;
-	for (i = 0; i < 2; i++) {
+	for (i = 0; i < 2; i++)
 		GPIOPinTypeGPIOInput(BUTTONPORTS[i], BUTTONS[i]);
-	}
 }
 
 int get_button(int button) {
