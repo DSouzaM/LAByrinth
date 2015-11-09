@@ -1,18 +1,20 @@
 extern "C" {
 #include "OrbitBoosterPackDefs.h"
-#include "button.h"
-#include "led.h"
-#include "switch.h"
+#include "accelerometer.h"
+}
+
+int i = 0;
+
+extern "C" {
+void test(char const *s) {
+	Serial.write(s);
+}
 }
 
 void setup() {
-	setup_led();
-	setup_button();
-	setup_switch();
+	Serial.begin(9600);
+	setup_accelerometer();
 }
 void loop() {
-	set_led(0, get_button(0)); 
-	set_led(1, get_button(1)); 
-	set_led(2, get_switch(0)); 
-	set_led(3, get_switch(1)); 
+	get_accelerometer_x();
 }
