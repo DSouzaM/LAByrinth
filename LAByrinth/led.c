@@ -3,8 +3,8 @@
 
 #include "led.h"
 
-static const char LEDPORTS[] = {LED1Port, LED2Port, LED3Port, LED4Port};
-static const char LEDS[] = {LED1, LED2, LED3, LED4};
+static const int LEDPORTS[] = {LED1Port, LED2Port, LED3Port, LED4Port};
+static const int LEDS[] = {LED1, LED2, LED3, LED4};
 
 void setup_led() {
 	int i;
@@ -14,6 +14,6 @@ void setup_led() {
 	}
 }
 
-void set_led(char led, char state) {
+void set_led(int led, int state) {
 	GPIOPinWrite(LEDPORTS[led], LEDS[led], state ? LEDS[led] : LOW);
 }

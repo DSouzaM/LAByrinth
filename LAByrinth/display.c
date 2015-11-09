@@ -24,15 +24,15 @@ int display_get_y() {
 	return y;
 }
 
-void display_put_string(const char* string, int x, int y) {
+void display_put_string(const int* string, int x, int y) {
 	OrbitOledMoveTo(x, y);
 	OrbitOledDrawString(string);
 }
 
-void display_put_bitmap(const char bitmap[Y_MAX][X_MAX]) {
+void display_put_bitmap(const int bitmap[Y_MAX][X_MAX]) {
 	int i, j;
-	char *s;
-	char bmp[Y_MAX/8 * X_MAX] = {0};
+	int *s;
+	int bmp[Y_MAX/8 * X_MAX] = {0};
 	for (i = 0; i < Y_MAX; i++) {
 		for (j = 0; j < X_MAX; j++) {
 			bmp[(i/8)*X_MAX + j] |= (bitmap[i][j] ? 1 : 0) << (i % 8);

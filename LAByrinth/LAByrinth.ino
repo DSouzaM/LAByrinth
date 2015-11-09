@@ -1,19 +1,16 @@
 extern "C" {
 #include "OrbitBoosterPackDefs.h"
-#include "display.h"
+#include "button.h"
+#include "led.h"
 }
-
-char bmp[Y_MAX][X_MAX];
 
 void setup() {
-	int i, j;
-	Serial.begin(9600);
-	for (i = 0; i < Y_MAX; i++)
-		for (j = 0; j < X_MAX; j++)
-			bmp[i][j] = (i+j) % 2;
-	display_setup();
+	setup_led();
+	setup_button();
 }
 void loop() {
-	display_put_bitmap(bmp);
-	delay(10);
+	int i;
+	for (i = 0; i < 4; i++)
+		set_led(i, 0);
+	set_led((get_button(1) ? 2 : 0) + (get_button(0) ? 1 : 0), 1);
 }

@@ -5,6 +5,6 @@
 #include "Energia.h"
 
 void setup_button();
-char get_button(char button);
+int get_button(int button);
 
 #endif

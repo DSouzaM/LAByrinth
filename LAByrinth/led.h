@@ -4,7 +4,7 @@
 #include "OrbitBoosterPackDefs.h"
 #include "Energia.h"
 
-void set_led(char led, char state);
-char get_led(char led);
+void setup_led();
+void set_led(int led, int state);
 
 #endif
