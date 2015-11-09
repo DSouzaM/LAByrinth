@@ -8,6 +8,7 @@ extern "C" {
 void setup() {
 	setup_led();
 	setup_button();
+	setup_switch();
 }
 void loop() {
 	set_led(0, get_button(0)); 

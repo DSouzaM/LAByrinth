@@ -3,7 +3,6 @@
 
 #include "switch.h"
 
-static const int SWITCHPORTS[] = {SWT1Port, SWT2Port};
 static const int SWITCHES[] = {SWT1, SWT2};
 
 void setup_switch() {
