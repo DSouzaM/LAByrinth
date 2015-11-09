@@ -6,7 +6,7 @@
 void setup_potentiometer() { 
 	// Try to figure out the boosterpack way of doing this
 	// This code doesn't do anything right now. It's just decorative.
-	pinMode(AIN, INTPUT); 
+	pinMode(AIN, INPUT); 
 }
 
 int get_potentiometer() {
