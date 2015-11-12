@@ -19,7 +19,7 @@ void map1(char map[32][128]){
 		}
 		map[row][0] = WALL;
 		map[row][127] = WALL;
-		map[row][row] = WALL;
+		map[row][row] = WIN_POS;
 	}
 	for (int col = 0; col < 128; col++) {
 		map[0][col] = WALL;
