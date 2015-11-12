@@ -3,7 +3,7 @@
 
 #include "Energia.h"
 
-#define POTENTIOMETER_MAX 0x0xFFF
+#define POTENTIOMETER_MAX 0x1000
 
 void setup_potentiometer();
 int get_potentiometer();
