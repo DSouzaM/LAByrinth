@@ -5,9 +5,16 @@
 #include "MapGenerator.h"
 
 //checks whether the player has landed on the right spot to win the current game
-/*bool checkWin (char[2]){
-	 if (
-}*/
+
+bool checkWin (char position[2]){
+    for (int i = 0; i < 2; i ++){
+    	if (map[position[i]] == WIN_POS){
+    		return true;
+    	}
+    }
+
+    return false;
+}
 
 //reads and changes the player's position from the input from the accelerometer
 void update() {
