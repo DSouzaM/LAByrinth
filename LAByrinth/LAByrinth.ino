@@ -8,6 +8,8 @@ void setup() {
 	setup_accelerometer();
 }
 void loop() {
-	Serial.println(get_accelerometer_x());
+	char s[0x10];
+	sprintf(s, "%4d, %4d, %4d\n", get_accelerometer_x(), get_accelerometer_y(), get_accelerometer_z());
+	Serial.write(s);
 	delay(200);
 }
