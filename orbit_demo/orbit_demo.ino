@@ -1,8 +1,5 @@
 extern "C" {
 #include <OrbitBoosterPackDefs.h>
-#include <OrbitOled.h>
-#include <OrbitOledChar.h>
-#include <OrbitOledGrph.h>
 }
 
 char I2CGenTransmit(char * pbData, int cSize, bool fRW, char bAddr);
@@ -13,10 +10,12 @@ const char chX0Addr = 0x32;
 const char chY0Addr = 0x34;
 const char chZ0Addr = 0x36;
 
+char rgchReadAccl[3];
+char rgchWriteAccl[3];
+
 void setup() {
-	Serial.begin(9600);
-	char 	rgchReadAccl[] = {
-	0, 0, 0            };
+	Serial.begin(9600);//REMOVE THIS LATER
+
 	/*
 	* Enable I2C Peripheral
 	*/
@@ -46,54 +45,30 @@ void setup() {
 	I2CGenTransmit(rgchWriteAccl, 1, WRITE, ACCLADDR);
 }
 
-void loop()
-{
-  short	dataX;
-  short dataY;
-  short dataZ;
-  
-  char printVal[0x10];
-  
-
-  
-
-  char 	rgchWriteAccl[] = {
-    0, 0            };
-    
-  char rgchReadAccl2[] = {
-    0, 0, 0            };
-    
-  char rgchReadAccl3[] = {
-  0, 0, 0            };
-  
-  
-  
-  /*
-   * Loop and check for movement until switches
-   * change
-   */
-  while(1) {
-
-    /*
-     * Read the X data register
-     */
-    rgchReadAccl[0] = chX0Addr;
-    rgchReadAccl2[0] = chY0Addr;
-    rgchReadAccl3[0] = chZ0Addr;
-    
-    I2CGenTransmit(rgchReadAccl, 2, READ, ACCLADDR);
-    I2CGenTransmit(rgchReadAccl2, 2, READ, ACCLADDR);
-    I2CGenTransmit(rgchReadAccl3, 2, READ, ACCLADDR);
-    
-    dataX = (rgchReadAccl[2] << 8) | rgchReadAccl[1];
-    dataY = (rgchReadAccl2[2] << 8) | rgchReadAccl2[1];
-    dataZ = (rgchReadAccl3[2] << 8) | rgchReadAccl2[1];
-    
-    sprintf(printVal, "%4d, %4d, %4d", (int)dataX, (int)dataY, (int)dataZ);
+void loop() {
+	char printVal[0x10];//REMOVE THIS LATER
+	short dataX;
+	short dataY;
+	short dataZ;
+	char rgchReadAccl2[3];
+	char rgchReadAccl3[3];
+	
+	rgchReadAccl[0] = chX0Addr;
+	rgchReadAccl2[0] = chY0Addr;
+	rgchReadAccl3[0] = chZ0Addr;
+	
+	I2CGenTransmit(rgchReadAccl, 2, READ, ACCLADDR);
+	I2CGenTransmit(rgchReadAccl2, 2, READ, ACCLADDR);
+	I2CGenTransmit(rgchReadAccl3, 2, READ, ACCLADDR);
+	
+	dataX = (rgchReadAccl[2] << 8) | rgchReadAccl[1];
+	dataY = (rgchReadAccl2[2] << 8) | rgchReadAccl2[1];
+	dataZ = (rgchReadAccl3[2] << 8) | rgchReadAccl2[1];
+	
+	sprintf(printVal, "%4d, %4d, %4d\n", (int)dataX, (int)dataY, (int)dataZ);
 	Serial.write(printVal);
 	delay(200);
-    
-  }
+
 }
 
 /* ------------------------------------------------------------ */
