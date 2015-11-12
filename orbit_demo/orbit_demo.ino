@@ -5,18 +5,9 @@ extern "C" {
 #include <OrbitOledChar.h>
 #include <OrbitOledGrph.h>
 }
-
-
-/* ------------------------------------------------------------ */
-/*				Local Type Definitions		*/
-/* ------------------------------------------------------------ */
-#define DEMO_3		3
-
-
 /* ------------------------------------------------------------ */
 /*				Forward Declarations							*/
 /* ------------------------------------------------------------ */
-void acceltest();
 
 char I2CGenTransmit(char * pbData, int cSize, bool fRW, char bAddr);
 bool I2CGenIsNotIdle();
@@ -29,11 +20,6 @@ void setup()
 
 void loop()
 {
-  acceltest();
-}
-
-void acceltest() {
-
   short	dataX;
   short dataY;
   short dataZ;
@@ -55,13 +41,7 @@ void acceltest() {
     
   char rgchReadAccl3[] = {
   0, 0, 0            };
-
-
   
-  OrbitOledClear();
-  OrbitOledMoveTo(0,0);
-  OrbitOledSetCursor(0,0);
-
   /*
    * Enable I2C Peripheral
    */
@@ -122,7 +102,6 @@ void acceltest() {
      OrbitOledClear();
     
   }
-    
 }
 
 /* ------------------------------------------------------------ */
