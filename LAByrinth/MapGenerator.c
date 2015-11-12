@@ -25,11 +25,9 @@ char* map3(){
 
 
 char* mapGenerator (int level){
-    if (level == 0){
-        return map1();
-    }else if (level == 1){
-        return map2();
-    }else{
-        return map3();
+    switch(level) {
+    		case 0: return map1();
+    		case 1: return map2();
+    		default: return map3();
     }
 }
