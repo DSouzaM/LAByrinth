@@ -4,17 +4,46 @@ extern "C" {
 #include <OrbitOledChar.h>
 #include <OrbitOledGrph.h>
 }
-/* ------------------------------------------------------------ */
-/*				Forward Declarations							*/
-/* ------------------------------------------------------------ */
 
 char I2CGenTransmit(char * pbData, int cSize, bool fRW, char bAddr);
 bool I2CGenIsNotIdle();
 
+const char chPwrCtlReg = 0x2D;
+const char chX0Addr = 0x32;
+const char chY0Addr = 0x34;
+const char chZ0Addr = 0x36;
 
-void setup()
-{
-  OrbitOledInit();
+void setup() {
+	Serial.begin(9600);
+	char 	rgchReadAccl[] = {
+	0, 0, 0            };
+	/*
+	* Enable I2C Peripheral
+	*/
+	SysCtlPeripheralEnable(SYSCTL_PERIPH_I2C0);
+	SysCtlPeripheralReset(SYSCTL_PERIPH_I2C0);
+	
+	/*
+	* Set I2C GPIO pins
+	*/
+	GPIOPinTypeI2C(I2CSDAPort, I2CSDA_PIN);
+	GPIOPinTypeI2CSCL(I2CSCLPort, I2CSCL_PIN);
+	GPIOPinConfigure(I2CSCL);
+	GPIOPinConfigure(I2CSDA);
+	
+	/*
+	* Setup I2C
+	*/
+	I2CMasterInitExpClk(I2C0_BASE, SysCtlClockGet(), false);
+	
+	/* Initialize the Accelerometer
+	*
+	*/
+	GPIOPinTypeGPIOInput(ACCL_INT2Port, ACCL_INT2);
+	
+	rgchWriteAccl[0] = chPwrCtlReg;
+	rgchWriteAccl[1] = 1 << 3;		// sets Accl in measurement mode
+	I2CGenTransmit(rgchWriteAccl, 1, WRITE, ACCLADDR);
 }
 
 void loop()
@@ -25,13 +54,9 @@ void loop()
   
   char printVal[0x10];
   
-  char 	chPwrCtlReg = 0x2D;
-  char 	chX0Addr = 0x32;
-  char  chY0Addr = 0x34;
-  char  chZ0Addr = 0x36;
+
   
-  char 	rgchReadAccl[] = {
-    0, 0, 0            };
+
   char 	rgchWriteAccl[] = {
     0, 0            };
     
@@ -41,33 +66,7 @@ void loop()
   char rgchReadAccl3[] = {
   0, 0, 0            };
   
-  /*
-   * Enable I2C Peripheral
-   */
-  SysCtlPeripheralEnable(SYSCTL_PERIPH_I2C0);
-  SysCtlPeripheralReset(SYSCTL_PERIPH_I2C0);
-
-  /*
-   * Set I2C GPIO pins
-   */
-  GPIOPinTypeI2C(I2CSDAPort, I2CSDA_PIN);
-  GPIOPinTypeI2CSCL(I2CSCLPort, I2CSCL_PIN);
-  GPIOPinConfigure(I2CSCL);
-  GPIOPinConfigure(I2CSDA);
-
-  /*
-   * Setup I2C
-   */
-  I2CMasterInitExpClk(I2C0_BASE, SysCtlClockGet(), false);
-
-  /* Initialize the Accelerometer
-   *
-   */
-  GPIOPinTypeGPIOInput(ACCL_INT2Port, ACCL_INT2);
-
-  rgchWriteAccl[0] = chPwrCtlReg;
-  rgchWriteAccl[1] = 1 << 3;		// sets Accl in measurement mode
-  I2CGenTransmit(rgchWriteAccl, 1, WRITE, ACCLADDR);
+  
   
   /*
    * Loop and check for movement until switches
@@ -90,15 +89,9 @@ void loop()
     dataY = (rgchReadAccl2[2] << 8) | rgchReadAccl2[1];
     dataZ = (rgchReadAccl3[2] << 8) | rgchReadAccl2[1];
     
-     sprintf(printVal, "%4d, %4d, %4d", (int)dataX, (int)dataY, (int)dataZ);
-
-     OrbitOledSetCursor(0,0);
-
-     OrbitOledPutString(printVal);
-     OrbitOledUpdate();
-     delay(200);
-     printVal[10] = {0};
-     OrbitOledClear();
+    sprintf(printVal, "%4d, %4d, %4d", (int)dataX, (int)dataY, (int)dataZ);
+	Serial.write(printVal);
+	delay(200);
     
   }
 }
