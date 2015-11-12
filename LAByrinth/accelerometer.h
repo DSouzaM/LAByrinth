@@ -4,7 +4,8 @@
 #include <OrbitBoosterPackDefs.h>
 #include "Energia.h"
 
-#define ACCELEROMETER_MAX 512
+#define ACCELEROMETER_MAX 511
+#define ACCELEROMETER_MIN -512
 
 /*
  * Here is how the accelerometer works:
