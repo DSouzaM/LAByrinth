@@ -1,5 +1,4 @@
 extern "C" {
-#include <delay.h>
 #include <OrbitBoosterPackDefs.h>
 #include <OrbitOled.h>
 #include <OrbitOledChar.h>
@@ -140,7 +139,7 @@ char I2CGenTransmit(char * pbData, int cSize, bool fRW, char bAddr) {
 
   I2CMasterControl(I2C0_BASE, I2C_MASTER_CMD_BURST_SEND_START);
 
-  DelayMs(1);
+  delay(1);
 
   /* Idle wait*/
   while(I2CGenIsNotIdle());
@@ -166,21 +165,21 @@ char I2CGenTransmit(char * pbData, int cSize, bool fRW, char bAddr) {
       if(cSize == i + 1 && cSize == 1) {
         I2CMasterControl(I2C0_BASE, I2C_MASTER_CMD_SINGLE_RECEIVE);
 
-        DelayMs(1);
+        delay(1);
 
         while(I2CMasterBusy(I2C0_BASE));
       }
       else if(cSize == i + 1 && cSize > 1) {
         I2CMasterControl(I2C0_BASE, I2C_MASTER_CMD_BURST_RECEIVE_FINISH);
 
-        DelayMs(1);
+        delay(1);
 
         while(I2CMasterBusy(I2C0_BASE));
       }
       else if(i == 0) {
         I2CMasterControl(I2C0_BASE, I2C_MASTER_CMD_BURST_RECEIVE_START);
 
-        DelayMs(1);
+        delay(1);
 
         while(I2CMasterBusy(I2C0_BASE));
 
@@ -190,7 +189,7 @@ char I2CGenTransmit(char * pbData, int cSize, bool fRW, char bAddr) {
       else {
         I2CMasterControl(I2C0_BASE, I2C_MASTER_CMD_BURST_RECEIVE_CONT);
 
-        DelayMs(1);
+        delay(1);
 
         while(I2CMasterBusy(I2C0_BASE));
 
@@ -220,14 +219,14 @@ char I2CGenTransmit(char * pbData, int cSize, bool fRW, char bAddr) {
       if(i == cSize - 1) {
         I2CMasterControl(I2C0_BASE, I2C_MASTER_CMD_BURST_SEND_FINISH);
 
-        DelayMs(1);
+        delay(1);
 
         while(I2CMasterBusy(I2C0_BASE));
       }
       else {
         I2CMasterControl(I2C0_BASE, I2C_MASTER_CMD_BURST_SEND_CONT);
 
-        DelayMs(1);
+        delay(1);
 
         while(I2CMasterBusy(I2C0_BASE));
 
