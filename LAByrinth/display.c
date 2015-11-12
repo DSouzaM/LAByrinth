@@ -4,32 +4,32 @@
 
 #include "display.h"
 
-void display_setup() {
+void setup_display() {
 	OrbitOledInit();
 }
 
-void display_clear() {
+void clear_display() {
 	OrbitOledClear();
 }
 
-int display_get_x() {
+int get_x_display() {
 	int x, y;
 	OrbitOledGetPos(&x, &y);
 	return x;
 }
 
-int display_get_y() {
+int get_y_display() {
 	int x, y;
 	OrbitOledGetPos(&x, &y);
 	return y;
 }
 
-void display_put_string(const int* string, int x, int y) {
+void put_string_display(const char* string, int x, int y) {
 	OrbitOledMoveTo(x, y);
 	OrbitOledDrawString(string);
 }
 
-void display_put_bitmap(const int bitmap[Y_MAX][X_MAX]) {
+void put_bitmap_display(const int bitmap[Y_MAX][X_MAX]) {
 	int i, j;
 	int *s;
 	int bmp[Y_MAX/8 * X_MAX] = {0};
