@@ -13,7 +13,14 @@ extern "C" {
 /* ------------------------------------------------------------ */
 /*				Local Type Definitions		*/
 /* ------------------------------------------------------------ */
+#define DEMO_0		0
+#define DEMO_1		2
+#define DEMO_2		1
 #define DEMO_3		3
+#define RED_LED   GPIO_PIN_1
+#define BLUE_LED  GPIO_PIN_2
+#define GREEN_LED GPIO_PIN_3
+
 
 /* ------------------------------------------------------------ */
 /*				Global Variables		*/
@@ -29,13 +36,55 @@ char	chSwtCur;
 char	chSwtPrev;
 bool	fClearOled;
 
+/*
+ * Rocket Definitions
+ */
+
+// Define the top left corner of rocket
+int	xcoRocketStart 	= 48; //8*6
+int	ycoRocketStart	= 11;
+
+int	xcoExhstStart	= 39;
+int	ycoExhstStart	= 11;
+
+int	cRocketWidth 	= 24;
+int	cRocketHeight 	= 16;
+
+int	cExhstWidth	= 9;
+int	cExhstHeight	= 16;
+
+int	fExhstSwt	= 0;
+
+char	rgBMPRocket[] = {
+  0xFF, 0x11, 0xF1, 0x11, 0xF1, 0x12, 0x14, 0x18,
+  0x90, 0x10, 0x10, 0x10, 0x10, 0x10, 0x90, 0x10,
+  0x10, 0xE0, 0xC0, 0x80, 0x80, 0x80, 0x80, 0x80,
+  0xFF, 0x88, 0x8F, 0x88, 0x8F, 0x48, 0x28, 0x19,
+  0x0A, 0x09, 0x08, 0x08, 0x08, 0x09, 0x0A, 0x09,
+  0x08, 0x07, 0x03, 0x01, 0x01, 0x01, 0x01, 0x01};
+
+char	rgBMPExhst1[] = {
+  0x00, 0x00, 0x00, 0x00, 0x80, 0xC0, 0xE0, 0xF0, 0xF0,
+  0x00, 0x00, 0x00, 0x00, 0x01, 0x03, 0x07, 0x0F, 0x0F};
+
+char	rgBMPExhst2[] = {
+  0x00, 0x80, 0x80, 0xC0, 0xE0, 0xE0, 0xF0, 0xF0, 0xF0,
+  0x00, 0x01, 0x01, 0x03, 0x07, 0x07, 0x0F, 0x0F, 0x0F};
 
 /* ------------------------------------------------------------ */
 /*				Forward Declarations							*/
 /* ------------------------------------------------------------ */
 void DeviceInit();
+char CheckSwitches();
 void OrbitSetOled();
+void OrbitDemo0();
+void OrbitDemo1();
+void OrbitDemo2();
 void OrbitDemo3();
+
+void RocketRight(int xcoUpdate, int ycoUpdate);
+void RocketLeft(int xcoUpdate, int ycoUpdate);
+void RocketStop(int xcoUpdate, int ycoUpdate, bool fDir);
 
 char I2CGenTransmit(char * pbData, int cSize, bool fRW, char bAddr);
 bool I2CGenIsNotIdle();
@@ -53,11 +102,30 @@ void loop()
   char bDemoState = 0;
   volatile uint32_t ui32Loop;
 
+  bDemoState = CheckSwitches();
   for(ui32Loop = 0; ui32Loop < 200000; ui32Loop++)
   {
   }
 
-  OrbitDemo3();
+  switch(bDemoState) {
+
+  case DEMO_0:
+    OrbitDemo0();
+    break;
+  case DEMO_1:
+    OrbitDemo1();
+    break;
+  case DEMO_2:
+    OrbitDemo2();
+    break;
+  case DEMO_3:
+    OrbitDemo3();
+    break;
+  default:
+    OrbitDemo0();
+    break;
+  }
+
 }
 
 /* ------------------------------------------------------------ */
@@ -166,6 +234,390 @@ void DeviceInit()
 }
 
 /* ------------------------------------------------------------ */
+/***	CheckSwitches()
+ **
+ **	Parameters:
+ **		none
+ **
+ **	Return Value:
+ **		none
+ **
+ **	Errors:
+ **		none
+ **
+ **	Description:
+ **		Return the state of the Switches
+ */
+char CheckSwitches() {
+
+  long 	lSwt1;
+  long 	lSwt2;
+
+  chSwtPrev = chSwtCur;
+
+  lSwt1 = GPIOPinRead(SWT1Port, SWT1);
+  lSwt2 = GPIOPinRead(SWT2Port, SWT2);
+
+  chSwtCur = (lSwt1 | lSwt2) >> 6;
+
+  if(chSwtCur != chSwtPrev) {
+    fClearOled = true;
+  }
+
+  return chSwtCur;
+
+}
+
+
+/* ------------------------------------------------------------ */
+/***	OrbitDemo0
+ **
+ **	Parameters:
+ **		none
+ **
+ **	Return Value:
+ **		none
+ **
+ **	Errors:
+ **		none
+ **
+ **	Description:
+ **		Buttons turn on LEDs, and the ADC reading
+ **		(altered with the potentiometer, VR1) is continuously
+ **		output to the OLED.
+ */
+void OrbitDemo0() {
+
+  uint32_t	ulAIN0;
+  long 			lBtn1;
+  long 			lBtn2;
+  char			szAIN[6] = {
+    0            };
+  char			cMSB = 0x00;
+  char			cMIDB = 0x00;
+  char			cLSB = 0x00;
+
+  char szAnalog[] = {
+    'A', 'n', 'a', 'l', 'o', 'g', ':', ' ', '\0'            };
+  char szDemo1[]	= {
+    'O', 'r', 'b', 'i', 't', ' ', 'D', 'e', 'm', 'o', '!', '\0'            };
+  char szDemo2[]	= {
+    'B', 'y', ' ', 'D', 'i', 'g', 'i', 'l', 'e', 'n', 't', '\0'            };
+
+  /*
+   * If applicable, reset OLED
+   */
+  if(fClearOled == true) {
+    OrbitOledClear();
+    OrbitOledMoveTo(0,0);
+    OrbitOledSetCursor(0,0);
+    fClearOled = false;
+  }
+
+  /* Display Demo Banner
+   *
+   */
+  OrbitOledSetCursor(0, 0);
+  OrbitOledPutString(szDemo1);
+
+  OrbitOledSetCursor(0, 1);
+  OrbitOledPutString(szDemo2);
+
+  OrbitOledMoveTo(0,19);
+  OrbitOledLineTo(127, 19);
+
+  OrbitOledSetCursor(0, 4);
+  OrbitOledPutString(szAnalog);
+
+  /* Check SWT and BTN states and update LEDs
+   *
+   */
+  lBtn1 = GPIOPinRead(BTN1Port, BTN1);
+  lBtn2 = GPIOPinRead(BTN2Port, BTN2);
+
+  if(lBtn1 == BTN1) {
+    GPIOPinWrite(LED1Port, LED1, LED1);
+    GPIOPinWrite(LED2Port, LED2, LED2);
+  }
+  else {
+    GPIOPinWrite(LED1Port, LED1, LOW);
+    GPIOPinWrite(LED2Port, LED2, LOW);
+  }
+  if(lBtn2 == BTN2) {
+    GPIOPinWrite(LED3Port, LED3, LED3);
+    GPIOPinWrite(LED4Port, LED4, LED4);
+  }
+  else {
+    GPIOPinWrite(LED3Port, LED3, LOW);
+    GPIOPinWrite(LED4Port, LED4, LOW);
+  }
+
+  /*
+   * Initiate ADC Conversion and update the OLED
+   */
+  ADCProcessorTrigger(ADC0_BASE, 0);
+
+  while(!ADCIntStatus(ADC0_BASE, 0, false));
+
+  ADCSequenceDataGet(ADC0_BASE, 0, &ulAIN0);
+
+  /*
+   * Process data
+   */
+  cMSB = (0xF00 & ulAIN0) >> 8;
+  cMIDB = (0x0F0 & ulAIN0) >> 4;
+  cLSB = (0x00F & ulAIN0);
+
+  szAIN[0] = '0';
+  szAIN[1] = 'x';
+  szAIN[2] = (cMSB > 9) ? 'A' + (cMSB - 10) : '0' + cMSB;
+  szAIN[3] = (cMIDB > 9) ? 'A' + (cMIDB - 10) : '0' + cMIDB;
+  szAIN[4] = (cLSB > 9) ? 'A' + (cLSB - 10) : '0' + cLSB;
+  szAIN[5] = '\0';
+
+  /*
+   * Update the Reading
+   */
+  OrbitOledSetCursor(8, 4);
+  OrbitOledPutString(szAIN);
+}
+
+/* ------------------------------------------------------------ */
+/***	OrbitDemo1
+ **
+ **	Parameters:
+ **		none
+ **
+ **	Return Value:
+ * 
+ **		none
+ **
+ **	Errors:
+ **		none
+ **
+ **	Description:
+ **		Writes received chars from USBUART to OLED and EEPROM. When
+ **		The ESC character is received, send back the last 25 characters
+ **		received.
+ */
+
+void OrbitDemo1() {
+  char	rgchRecv[25];
+  char	chRecv = '-';
+  char	chBck = 0x08; //backspace
+  char	chEntr = 0x0D; //enter
+  int		xCur = 0;
+  int		yCur = 0;
+  int		i;
+
+  int		cNumRecv = 0;
+
+  /*
+   * If applicable, reset OLED
+   */
+  if(fClearOled == true) {
+    OrbitOledClear();
+    OrbitOledMoveTo(0,0);
+    OrbitOledSetCursor(0,0);
+    fClearOled = false;
+
+    /*
+     * Initialize UART on JB
+     */
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_UART1);
+    GPIOPinTypeUART(U1RXTXPort, UART1TXPin | UART1RXPin);
+    GPIOPinConfigure(UART1TX);
+    GPIOPinConfigure(UART1RX);
+    UARTConfigSetExpClk(UART1_BASE, SysCtlClockGet(), 9600, UART_CONFIG_WLEN_8 |
+      UART_CONFIG_STOP_ONE | UART_CONFIG_PAR_NONE);
+    UARTFlowControlSet(UART1_BASE, UART_FLOWCONTROL_NONE);
+    UARTEnable(UART1_BASE);
+
+    /*
+     * Enable I2C Peripheral
+     */
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_I2C0);
+    SysCtlPeripheralReset(SYSCTL_PERIPH_I2C0);
+
+    /*
+     * Set I2C GPIO pins
+     */
+    GPIOPinTypeI2C(I2CSDAPort, I2CSDA_PIN);
+    GPIOPinTypeI2CSCL(I2CSCLPort, I2CSCL_PIN);
+    GPIOPinConfigure(I2CSCL);
+    GPIOPinConfigure(I2CSDA);
+
+    /*
+     * Setup I2C
+     */
+    I2CMasterInitExpClk(I2C0_BASE, SysCtlClockGet(), false);
+
+    /*
+     * Initialize EEPROM
+     */
+    I2CEEPROMInit();
+
+  }
+
+  while(CheckSwitches() == DEMO_1) {
+
+    /*
+     * If a byte has been sent, display it on the OLED
+     */
+    if(UARTCharsAvail(UART1_BASE)) {
+      chRecv = (char)UARTCharGetNonBlocking(UART1_BASE);
+
+      if(chRecv != chEntr) {
+        cNumRecv++;
+
+        if(cNumRecv >= 25) {
+          cNumRecv = 0;
+        }
+
+        I2CEEPROMWrite(&chRecv, cNumRecv, 1);
+
+        OrbitOledGetCursor(&xCur, &yCur);
+
+        if(xCur == 0 && yCur == 0) {
+          OrbitOledClear();
+        }
+
+        if(chRecv == chBck) {
+          OrbitOledClear();
+          OrbitOledSetCursor(0,0);
+          cNumRecv = 0;
+        }
+        else {
+          OrbitOledPutChar(chRecv);
+        }
+      }
+      else {
+        cNumRecv++;
+        I2CEEPROMRead(rgchRecv, 1, cNumRecv);
+
+        for(i = 0; i < cNumRecv; i++) {
+          UARTCharPut(UART1_BASE, rgchRecv[i]);
+        }
+
+        UARTCharPut(UART1_BASE, ' ');
+
+        cNumRecv = 0;
+      }
+    }
+  }
+}
+
+/* ------------------------------------------------------------ */
+/***	OrbitDemo2
+ **
+ **	Parameters:
+ **		none
+ **
+ **	Return Value:
+ **		none
+ **
+ **	Errors:
+ **		none
+ **
+ **	Description:
+ **		Reads the temperature and then updates the OLED display
+ **		with the temperature and alerts! if necessary
+ */
+void OrbitDemo2() {
+
+
+  char 	szTempLabel[] = {
+    'T', 'e', 'm', 'p', ':', ' ', '\0'            };
+  char	szC[] = {
+    ' ', 'C', '\0'            };
+  char 	rgchReadTemp[] = {
+    0, 0, 0            };
+  char 	rgchWriteTemp[] = {
+    1, 0x20            };
+  short  	tempReg;
+  short	tempWhole;
+  short	tempDec;
+  int		i;
+  char 	szTemp[6];
+
+  /*
+   * If applicable, reset OLED
+   */
+  if(fClearOled == true) {
+    OrbitOledClear();
+    OrbitOledMoveTo(0,0);
+    OrbitOledSetCursor(0,0);
+    fClearOled = false;
+
+    /*
+     * Setup Oled for Temperature
+     */
+    OrbitOledSetCursor(0, 0);
+    OrbitOledPutString(szTempLabel);
+
+    /*
+     * Enable I2C Peripheral
+     */
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_I2C0);
+    SysCtlPeripheralReset(SYSCTL_PERIPH_I2C0);
+
+    /*
+     * Set I2C GPIO pins
+     */
+    GPIOPinTypeI2C(I2CSDAPort, I2CSDA_PIN);
+    GPIOPinTypeI2CSCL(I2CSCLPort, I2CSCL_PIN);
+    GPIOPinConfigure(I2CSCL);
+    GPIOPinConfigure(I2CSDA);
+
+    /*
+     * Setup I2C
+     */
+    I2CMasterInitExpClk(I2C0_BASE, SysCtlClockGet(), false);
+
+    /*
+     * Setup Temperature Sensor
+     */
+    I2CGenTransmit(rgchWriteTemp, 1, WRITE, TEMPADDR);
+  }
+
+  rgchReadTemp[0] = 0;
+  I2CGenTransmit(rgchReadTemp, 2, READ, TEMPADDR);
+
+  tempReg = (rgchReadTemp[1] << 8) | rgchReadTemp[2];
+
+  tempWhole = 0;
+  tempDec = 0;
+
+  for(i = 0; i < 7; i++) {
+    if(tempReg & (1 << (8 + i))) {
+      tempWhole += pow(2,i);
+    }
+  }
+
+  if(tempReg & (1 << 7) ) {
+    tempDec += 50;
+  }
+  if(tempReg & (1 << 6) ) {
+    tempDec += 25;
+  }
+
+  sprintf(szTemp, "%d.%d", tempWhole, tempDec);
+
+  if(tempDec == 0) {
+    szTemp[4] = ' ';
+  }
+  szTemp[5] = '\0';
+
+  OrbitOledSetCursor(6,0);
+
+  OrbitOledPutString(szTemp);
+
+  OrbitOledSetCursor(11, 0);
+
+  OrbitOledPutString(szC);
+}
+
+/* ------------------------------------------------------------ */
 /***	OrbitDemo3
  **
  **	Parameters:
@@ -206,6 +658,15 @@ void OrbitDemo3() {
     char rgchReadAccl3[] = {
     0, 0, 0            };
 
+  int	xcoRocketCur = xcoRocketStart;
+  int 	ycoRocketCur = ycoRocketStart;
+  int 	xcoExhstCur = xcoExhstStart;
+  int 	ycoExhstCur = ycoExhstStart;
+
+  int		xDirThreshPos = 50;
+  int		xDirThreshNeg = -50;
+
+  bool fDir = true;
 
   /*
    * If applicable, reset OLED
@@ -249,7 +710,7 @@ void OrbitDemo3() {
    * Loop and check for movement until switches
    * change
    */
-  while(1) {
+  while(CheckSwitches() == DEMO_3) {
 
     /*
      * Read the X data register
@@ -272,12 +733,117 @@ void OrbitDemo3() {
 
      OrbitOledPutString(printVal);
      OrbitOledUpdate();
-     delay(100);
+     delay(1000);
      printVal[10] = {0};
      OrbitOledClear();
     
   }
     
+}
+
+/* ------------------------------------------------------------ */
+/***	RocketRight
+ **
+ **	Parameters:
+ **		none
+ **
+ **	Return Value:
+ **		none
+ **
+ **	Errors:
+ **		none
+ **
+ **	Description:
+ **		Moves the rocket to the right on the OLED display
+ **
+ */
+void RocketRight(int xcoUpdate, int ycoUpdate) {
+  OrbitOledMoveTo(xcoUpdate, ycoUpdate);
+  OrbitOledPutBmp(cRocketWidth, cRocketHeight, rgBMPRocket);
+
+  /*
+   * If Rocket moves right
+   */
+  OrbitOledMoveTo(xcoUpdate - cExhstWidth, ycoUpdate);
+
+  if(fExhstSwt == 0) {
+    OrbitOledPutBmp(cExhstWidth, cExhstHeight, rgBMPExhst1);
+    fExhstSwt++;
+  }
+  else {
+    OrbitOledPutBmp(cExhstWidth, cExhstHeight, rgBMPExhst2);
+    fExhstSwt--;
+  }
+
+  OrbitOledUpdate();
+}
+
+/* ------------------------------------------------------------ */
+/***	RocketLeft
+ **
+ **	Parameters:
+ **		none
+ **
+ **	Return Value:
+ **		none
+ **
+ **	Errors:
+ **		none
+ **
+ **	Description:
+ **		Moves the rocket to the left on the OLED display
+ **
+ */
+void RocketLeft(int xcoUpdate, int ycoUpdate) {
+  OrbitOledMoveTo(xcoUpdate, ycoUpdate);
+  OrbitOledPutBmpFlipped(cRocketWidth, cRocketHeight, rgBMPRocket);
+
+  /*
+   * If Rocket moves left
+   */
+  OrbitOledMoveTo(xcoUpdate + cRocketWidth, ycoUpdate);
+
+  if(fExhstSwt == 0) {
+    OrbitOledPutBmpFlipped(cExhstWidth, cExhstHeight, rgBMPExhst1);
+    fExhstSwt++;
+  }
+  else {
+    OrbitOledPutBmpFlipped(cExhstWidth, cExhstHeight, rgBMPExhst2);
+    fExhstSwt--;
+  }
+
+  OrbitOledUpdate();
+}
+
+/* ------------------------------------------------------------ */
+/***	RocketStop
+ **
+ **	Parameters:
+ **		none
+ **
+ **	Return Value:
+ **		none
+ **
+ **	Errors:
+ **		none
+ **
+ **	Description:
+ **		Keeps the Rocket in one place on the OLED display
+ **
+ */
+void RocketStop(int xcoUpdate, int ycoUpdate, bool fDir) {
+  if(fDir) {
+    OrbitOledMoveTo(xcoUpdate - cExhstWidth, ycoUpdate);
+    OrbitOledSetFillPattern(OrbitOledGetStdPattern(0));
+    OrbitOledFillRect(xcoUpdate - 1, ycoUpdate + cExhstHeight);
+  }
+  else {
+    OrbitOledMoveTo(xcoUpdate + cRocketWidth, ycoUpdate);
+    OrbitOledSetFillPattern(OrbitOledGetStdPattern(0));
+    OrbitOledFillRect(xcoUpdate + cRocketWidth + cExhstWidth, ycoUpdate + cExhstHeight);
+  }
+
+  OrbitOledUpdate();
 }
 
 /* ------------------------------------------------------------ */
