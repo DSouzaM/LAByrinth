@@ -4,6 +4,6 @@
 #include "Energia.h"
 
 void setup_switch();
-char get_switch(char swtch);
+int get_switch(int swtch);
 
 #endif

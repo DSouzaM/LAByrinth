@@ -4,6 +4,7 @@
 #include "OrbitBoosterPackDefs.h"
 #include "Energia.h"
 
+void setup_button();
 int get_button(int button);
 
 #endif
