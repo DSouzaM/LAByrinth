@@ -10,7 +10,6 @@ const char chX0Addr = 0x32;
 const char chY0Addr = 0x34;
 const char chZ0Addr = 0x36;
 
-char rgchReadAccl[3];
 char rgchWriteAccl[3];
 
 void setup() {
@@ -50,22 +49,17 @@ void loop() {
 	short dataX;
 	short dataY;
 	short dataZ;
+	char rgchReadAccl[3];
 	char rgchReadAccl2[3];
 	char rgchReadAccl3[3];
 	
-	rgchReadAccl[0] = chX0Addr;
-	rgchReadAccl2[0] = chY0Addr;
-	rgchReadAccl3[0] = chZ0Addr;
+	rgchReadAccl[0] = chY0Addr;
 	
 	I2CGenTransmit(rgchReadAccl, 2, READ, ACCLADDR);
-	I2CGenTransmit(rgchReadAccl2, 2, READ, ACCLADDR);
-	I2CGenTransmit(rgchReadAccl3, 2, READ, ACCLADDR);
 	
 	dataX = (rgchReadAccl[2] << 8) | rgchReadAccl[1];
-	dataY = (rgchReadAccl2[2] << 8) | rgchReadAccl2[1];
-	dataZ = (rgchReadAccl3[2] << 8) | rgchReadAccl2[1];
 	
-	sprintf(printVal, "%4d, %4d, %4d\n", (int)dataX, (int)dataY, (int)dataZ);
+	sprintf(printVal, "%4d, %4d, %4d\n", (int)rgchReadAccl[0], (int)rgchReadAccl[1], (int) rgchReadAccl[2]);
 	Serial.write(printVal);
 	delay(200);
 
