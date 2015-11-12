@@ -4,6 +4,8 @@
 #include <OrbitBoosterPackDefs.h>
 #include "Energia.h"
 
+#define ACCELEROMETER_MAX 512
+
 void setup_accelerometer();
 int get_accelerometer_x();
 int get_accelerometer_y();
