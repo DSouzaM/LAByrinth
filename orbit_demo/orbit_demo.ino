@@ -1,8 +1,5 @@
 extern "C" {
 #include <delay.h>
-#include <FillPat.h>
-#include <I2CEEPROM.h>
-#include <LaunchPad.h>
 #include <OrbitBoosterPackDefs.h>
 #include <OrbitOled.h>
 #include <OrbitOledChar.h>
@@ -150,8 +147,8 @@ void acceltest() {
  */
 char I2CGenTransmit(char * pbData, int cSize, bool fRW, char bAddr) {
 
-  int 		i;
-  char * 		pbTemp;
+  int i;
+  char *pbTemp;
 
   pbTemp = pbData;
 
