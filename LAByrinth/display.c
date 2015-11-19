@@ -6,6 +6,7 @@
 
 void setup_display() {
 	OrbitOledInit();
+	OrbitOledClear();
 }
 
 void clear_display() {
