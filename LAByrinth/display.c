@@ -1,5 +1,6 @@
 #include <OrbitOled.h>
 #include <OrbitOledGrph.h>
+#include <OrbitOledChar.h>
 #include "Energia.h"
 
 #include "display.h"
@@ -26,8 +27,8 @@ int get_y_display() {
 }
 
 void put_string_display(const char* string, int x, int y) {
-	OrbitOledMoveTo(x, y);
-	OrbitOledDrawString(string);
+	OrbitOledSetCursor(x, y);
+	OrbitOledPutString(string);
 }
 
 void put_bitmap_display(const int bitmap[Y_MAX][X_MAX]) {
@@ -40,7 +41,7 @@ void put_bitmap_display(const int bitmap[Y_MAX][X_MAX]) {
 		}
 	}
 	OrbitOledClear();
-	OrbitOledMoveTo(0, 0);
+	OrbitOledSetCursor(0, 0);
 	OrbitOledPutBmp(X_MAX, Y_MAX, bmp);
 	OrbitOledUpdate();
 }
