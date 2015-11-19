@@ -6,11 +6,11 @@
 #define X_MAX 128
 #define Y_MAX 32
 
-void display_setup();
-void display_clear();
-int display_get_x();
-int display_get_y();
-void display_put_string(const int* string, int x, int y);
-void display_put_bitmap(const int bitmap[Y_MAX][X_MAX]);
+void setup_display();
+void clear_display();
+int get_x_display();
+int get_y_display();
+void put_string_display(const char* string, int x, int y);
+void put_bitmap_display(const int bitmap[Y_MAX][X_MAX]);
 
 #endif

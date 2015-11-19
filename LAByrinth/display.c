@@ -1,35 +1,37 @@
 #include <OrbitOled.h>
 #include <OrbitOledGrph.h>
+#include <OrbitOledChar.h>
 #include "Energia.h"
 
 #include "display.h"
 
-void display_setup() {
+void setup_display() {
 	OrbitOledInit();
-}
-
-void display_clear() {
 	OrbitOledClear();
 }
 
-int display_get_x() {
+void clear_display() {
+	OrbitOledClear();
+}
+
+int get_x_display() {
 	int x, y;
 	OrbitOledGetPos(&x, &y);
 	return x;
 }
 
-int display_get_y() {
+int get_y_display() {
 	int x, y;
 	OrbitOledGetPos(&x, &y);
 	return y;
 }
 
-void display_put_string(const int* string, int x, int y) {
-	OrbitOledMoveTo(x, y);
-	OrbitOledDrawString(string);
+void put_string_display(const char* string, int x, int y) {
+	OrbitOledSetCursor(x, y);
+	OrbitOledPutString(string);
 }
 
-void display_put_bitmap(const int bitmap[Y_MAX][X_MAX]) {
+void put_bitmap_display(const int bitmap[Y_MAX][X_MAX]) {
 	int i, j;
 	int *s;
 	int bmp[Y_MAX/8 * X_MAX] = {0};
@@ -39,7 +41,7 @@ void display_put_bitmap(const int bitmap[Y_MAX][X_MAX]) {
 		}
 	}
 	OrbitOledClear();
-	OrbitOledMoveTo(0, 0);
+	OrbitOledSetCursor(0, 0);
 	OrbitOledPutBmp(X_MAX, Y_MAX, bmp);
 	OrbitOledUpdate();
 }
