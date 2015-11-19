@@ -4,8 +4,8 @@ extern "C" {
 }
 
 void setup() {
-	display_setup();
+	setup_display();
 }
 void loop() {
-	display_put_string("Hello", 0, 0);
+	put_string_display("Hello", 0, 0);
 }
