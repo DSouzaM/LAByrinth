@@ -8,6 +8,8 @@ extern "C" {
 #include "ball.h"
 #include "switch.h"
 #include "potentiometer.h"
+#include "button.h"
+#include "menu.h"
 }
 char theMap[32][128] = {{0}};
 long start;
@@ -16,6 +18,8 @@ Ball theBall;
 int fps;
 
 void setup() {
+	setup_display();
+	setup_button();
 	setup_switch();
 	setup_potentiometer();
 	fps = 1 + get_potentiometer()/30;
@@ -24,7 +28,6 @@ void setup() {
 	theBall.x = 4;
 	theBall.y = 4;
 
-	setup_display();
 	Serial.begin(9600);
 	generateMap(0,theMap);
 	/*for (int i = 0; i < 32; i++) {
@@ -33,10 +36,27 @@ void setup() {
 		}
 		Serial.println();
 	}*/
+	
+	initial_menu();
+	menu_loop:
+	switch (start_menu()) {
+		case 0:
+			goto start_game;//refactor later
+		case 1:
+			help_menu();
+			goto menu_loop;
+		case 2:
+			goto menu_loop;
+	}
+	
+	
+	start_game:
 	put_bitmap_display(theMap);
-
+	
 	start = millis();
+
 }
+
 void loop() {
 	long now = millis();
 	fps = 1 + get_potentiometer()/30;
