@@ -2,8 +2,10 @@
 #include <OrbitOledGrph.h>
 #include <OrbitOledChar.h>
 #include "Energia.h"
-
 #include "display.h"
+
+char dot[1] = {1};
+char empty[1] = {0};
 
 void setup_display() {
 	OrbitOledInit();
@@ -31,7 +33,8 @@ void put_string_display(const char* string, int x, int y) {
 	OrbitOledPutString(string);
 }
 
-void put_bitmap_display(const int bitmap[Y_MAX][X_MAX]) {
+
+void put_bitmap_display(const char bitmap[Y_MAX][X_MAX]) {
 	int i, j;
 	char bmp[Y_MAX/8 * X_MAX] = {0};
 	for (i = 0; i < Y_MAX; i++) {
@@ -43,4 +46,14 @@ void put_bitmap_display(const int bitmap[Y_MAX][X_MAX]) {
 	OrbitOledSetCursor(0, 0);
 	OrbitOledPutBmp(X_MAX, Y_MAX, bmp);
 	OrbitOledUpdate();
+}
+
+void erase_ball(Ball theBall) {
+	OrbitOledMoveTo(getPrevX(theBall),getPrevY(theBall));
+	OrbitOledPutBmp(1,1,empty);
+}
+
+void draw_ball(Ball theBall) {
+	OrbitOledMoveTo(getX(theBall),getY(theBall));
+	OrbitOledPutBmp(1,1,dot);
 }
