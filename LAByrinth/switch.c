@@ -10,5 +10,5 @@ void setup_switch() {
 }
 
 int get_switch(int swtch) {
-	return GPIOPinRead(SWTPort, SWITCHES[swtch]);
+	return (GPIOPinRead(SWTPort, SWITCHES[swtch]) != 0);
 }

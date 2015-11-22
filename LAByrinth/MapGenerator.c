@@ -25,7 +25,7 @@ void map1(char map[32][128]){
 
 void map2(char map[32][128]){
 	char map2[32][128] = 
-	#include``
+	#include "map1.h"
 	;
 	int i,j;
 	for (i = 0; i < 32; i++){
@@ -35,7 +35,7 @@ void map2(char map[32][128]){
 	}
 }void map3(char map[32][128]){
 	char map3[32][128] = 
-	#include "map3.h"
+	#include "map1.h"
 	;
 	int i,j;
 	for (i = 0; i < 32; i++){
