@@ -12,36 +12,44 @@ const char WIDTH = 32;
 const char LENGTH = 128;
 
 void map1(char map[32][128]){
-
-	for (int row = 0; row < 32; row++) {
-		for (int col = 0; col < 128; col++) {
-			map[row][col] = 0;
+	char map1[32][128] = 
+	#include "map1.h"
+	;
+	int i,j;
+	for (i = 0; i < 32; i++){
+		for (j = 0; j < 128; j++){
+			map[i][j] = map1[i][j];
 		}
-		map[row][0] = WALL;
-		map[row][127] = WALL;
-		map[row][row] = WIN_POS;
-	}
-	for (int col = 0; col < 128; col++) {
-		map[0][col] = WALL;
-		map[31][col] = WALL;
 	}
 }
-/*
-char** map2(){
-    
+
+void map2(char map[32][128]){
+	char map2[32][128] = 
+	#include``
+	;
+	int i,j;
+	for (i = 0; i < 32; i++){
+		for (j = 0; j < 128; j++){
+			map[i][j] = map2[i][j];
+		}
+	}
+}void map3(char map[32][128]){
+	char map3[32][128] = 
+	#include "map3.h"
+	;
+	int i,j;
+	for (i = 0; i < 32; i++){
+		for (j = 0; j < 128; j++){
+			map[i][j] = map3[i][j];
+		}
+	}
 }
 
-char** map3(){
-    
-}
-*/
+void generateMap (int level, char map[32][128]){
 
-void mapGenerator (int level, char map[32][128]){
-	map1(map);
-	/*
     switch(level) {
-    		case 0: return map1();
-    		case 1: return map2();
-    		default: return map3();
-    }*/
+    		case 0: map1(map);
+    		case 1: map2(map);
+    		default: map3(map);
+    }
 }

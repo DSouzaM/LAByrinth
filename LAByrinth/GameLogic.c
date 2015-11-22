@@ -8,8 +8,9 @@
 //checks whether the player has landed on the right spot to win the current game
 
 bool checkWin (char row, char col, const char map[32][128]){
-    for (int checkRow = row; checkRow < row + BALL_WIDTH; checkRow++){
-    	for (int checkCol = col; checkCol < col + BALL_WIDTH; checkCol++) {
+    int checkRow, checkCol;
+    for (checkRow = row; checkRow < row + BALL_WIDTH; checkRow++){
+    	for (checkCol = col; checkCol < col + BALL_WIDTH; checkCol++) {
     		if (map[checkRow][checkCol] == WIN_POS){
 				return true;
     		}
@@ -43,8 +44,9 @@ void logic(){
     }
 }
 void printMap(char map[32][128]) {
-	for (int row = 0; row < 32; row++) {
-		for (int col = 0; col < 128; col++) {
+    int row, col;
+	for (row = 0; row < 32; row++) {
+		for (col = 0; col < 128; col++) {
 			if (map[row][col] == SPACE) {
 				printf(" ");
 			} else if (map[row][col] == WALL) {
@@ -58,16 +60,3 @@ void printMap(char map[32][128]) {
 	}
 }
 
-
-int main() {
-	char map[32][128];
-	mapGenerator(0,map);
-	printMap(map);
-	printf("For column 0:\n");
-	for (int row = 0; row < 32; row++) {
-		printf("Row %d : %s", row, checkWin(row,0,map) ? " win!\n" : " no win\n");
-		
-	}
-	
-	return 1;
-}
