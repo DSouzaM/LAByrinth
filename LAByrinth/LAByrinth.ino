@@ -8,6 +8,7 @@ extern "C" {
 	#include "switch.h"
 	#include "potentiometer.h"
 	#include "button.h"
+	#include "accelerometer.h"	
 	#include "menu.h"
 	#include "GameLogic.h"
 	#include "MapGenerator.h"
@@ -25,6 +26,8 @@ void setup() {
 	setup_button();
 	setup_switch();
 	setup_potentiometer();
+	setup_accelerometer();
+
 	Serial.begin(9600);
 	state = INITIAL_STATE;
 	initial_menu();
@@ -79,6 +82,8 @@ void loop() {
 		}
 	} else if (state == GAME_STATE) {
 			updateGame();
+			Serial.println(get_accelerometer_x());
+			Serial.println(get_accelerometer_y());
 	}
 
 

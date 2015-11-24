@@ -3,6 +3,7 @@
 #include "MapGenerator.h"
 #include "ball.h"
 #include "GameLogic.h"
+#include "accelerometer.h"
 
 long start;
 char theMap[32][128] = {{0}};
@@ -43,8 +44,8 @@ void updateGame() {
 
     if (now - start >(1000/fps)) {
         start = now;    
-        dx = 0.5 - get_switch(0); // read from accelerometer
-        dy = 0.5 - get_switch(1); // read from accelerometer
+        dx = get_accelerometer_x()/600;
+        dy = get_accelerometer_y()/600;
         char futureX = getFutureX(theBall,dx);
         char futureY = getFutureY(theBall,dy);
         if (theMap[futureY][futureX] == 0) { // if no wall at resultant location
