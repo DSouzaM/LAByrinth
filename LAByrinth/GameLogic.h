@@ -1,9 +1,11 @@
 #ifndef GAMELOGIC_H
 #define GAMELOGIC_H
 
-bool checkWin (char[2]);
-void update();
+#define BALL_WIDTH 2
+char checkWin (char row, char col, const char map[32][128]);
+void setupGame();
+void updateGame();
 void tick();
-bool redraw();
+char redraw();
 
 #endif

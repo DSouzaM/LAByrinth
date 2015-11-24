@@ -1,3 +1,1 @@
-#ifndef _MENU_H#define _MENU_H
-#include "Energia.h"
-void help_menu();int start_menu();void initial_menu();#endif
+#ifndef _MENU_H#define _MENU_H#include "Energia.h"void help_menu();void next_help_page();void start_menu();void next_start_option();char get_start_selection();void initial_menu();#define HELP_PAGES 4#define TITLE_ROWS 2#define INITIAL_LINES 4#endif
