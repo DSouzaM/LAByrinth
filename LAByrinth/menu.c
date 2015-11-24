@@ -9,12 +9,12 @@
 #include "menu.h"
 
 #define HELP_PAGES 4
-#define TITLE_ROWS 3
+#define TITLE_ROWS 2
 #define INTIAL_LINES 4
 
 const char HELP_TEXT[HELP_PAGES][17] = {"Hi, this game is bullshit. This is a test.", "This is another page.", "The quick brown fox jumps", "LAST PAGE"};
 const char TITLE[17] = "LAByrinth";
-const char TITLE_TEXT[TITLE_ROWS][17] = {"Start", "Help", "Credits"};
+const char TITLE_TEXT[TITLE_ROWS][17] = {"Start", "Help"};
 const char INITIAL_TEXT[INTIAL_LINES][17] = {"BTN1 - toggle", "BTN2 - select", "", "Press to start"};
 
 

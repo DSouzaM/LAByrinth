@@ -22,6 +22,7 @@ char theMap[32][128] =
 ;
 
 void setup() {
+	int game_not_started = 1;
 	setup_display();
 	setup_button();
 	setup_switch();
@@ -42,19 +43,17 @@ void setup() {
 	}*/
 	
 	initial_menu();
-	menu_loop:
-	switch (start_menu()) {
-		case 0:
-			goto start_game;//refactor later
-		case 1:
-			help_menu();
-			goto menu_loop;
-		case 2:
-			goto menu_loop;
+	while (game_not_started) {
+		switch (start_menu()) {
+			case 0:
+				game_not_started = 0;
+				break;
+			case 1:
+				help_menu();
+				break;
+		}
 	}
 	
-	
-	start_game:
 	put_bitmap_display(theMap);
 	
 	start = millis();
