@@ -56,3 +56,12 @@ void initial_menu() {
 	for (i = 0; i < INITIAL_LINES; i++)
 		put_string_display(INITIAL_TEXT[i], 0, i);
 }
+
+void pause_menu(const char *s) {
+	clear_display();
+	put_string_display(s, 0, 0);
+	while (!(get_button(0) || get_button(1)))
+		while (get_button(0) || get_button(1))
+			;
+}
+		
