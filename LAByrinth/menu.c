@@ -7,8 +7,8 @@
 #include "button.h"
 #include "menu.h"
 
-char HELP_TEXT[HELP_PAGES][65] = {"Hi, this game is bullshit. This is a test.", "This is another page.", "The quick brown fox jumps", "LAST PAGE"};
-char TITLE[17] = "LAByrinth";
+char HELP_TEXT[HELP_PAGES][65] = {"Welcome to      	LAByrinth! Use  BTN1 to scroll, BTN2 to return", "Try to reach the end. Tilt to   control the ball", "Twist the knob   to control the speed", "Each level gets harder.         Have fun!"};
+char TITLE[17] = "LAByrinth";	
 char TITLE_TEXT[TITLE_ROWS][17] = {"Start", "Help"};
 char INITIAL_TEXT[INITIAL_LINES][17] = {"BTN1 - toggle", "BTN2 - select", "", "Press to start"};
 

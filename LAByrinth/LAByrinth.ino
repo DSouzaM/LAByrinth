@@ -86,6 +86,7 @@ void loop() {
 			if (checkWin()==1) {
 				state = MENU_STATE;
 				Serial.println("Entering Menu State");
+				pause_menu("U R WINAR");
 				start_menu();
 			}
 	}
