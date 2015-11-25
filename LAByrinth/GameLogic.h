@@ -1,15 +1,12 @@
 #ifndef GAMELOGIC_H
 #define GAMELOGIC_H
-#include "ball.h"
 
 #define BALL_WIDTH 2
-char checkWin (char row, char col, const char map[32][128]);
+int checkWin ();
 void setupGame();
 void updateGame();
-void tick();
-char redraw();
-int getBallX();
 double getAcclX();
 double getAcclY();
+
 
 #endif

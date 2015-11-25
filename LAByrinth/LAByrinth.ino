@@ -38,6 +38,7 @@ void loop() {
 			while (get_button(0) || get_button(1))
 				;
 			state = MENU_STATE;
+			Serial.println("Entering Menu State");
 			start_menu();
 		}
 	} 
@@ -46,20 +47,20 @@ void loop() {
 		if (get_button(0)) {
 			while (get_button(0))
 				;
-			next_start_option();
-			Serial.println(get_start_selection()+'\0');			
+			next_start_option();		
 		}		
 		if (get_button(1)) {
 			while (get_button(1))
 				;
-			Serial.println(get_start_selection()+'\0');
 			switch (get_start_selection()){
 				case 0:
 					state = GAME_STATE;
+					Serial.println("Entering Game State");
 					setupGame();
 					break;
 				case 1:
 					state = HELP_STATE;
+					Serial.println("Entering Help State");
 					help_menu();
 					break;
 			}
@@ -77,11 +78,15 @@ void loop() {
 			while (get_button(1))
 				;
 			state = MENU_STATE;
+			Serial.println("Entering Menu State");
 			start_menu();
 		}
 	} else if (state == GAME_STATE) {
 			updateGame();
-			Serial.println(getAcclX());
-			Serial.println(getAcclY());
+			if (checkWin()==1) {
+				state = MENU_STATE;
+				Serial.println("Entering Menu State");
+				start_menu();
+			}
 	}
 }
