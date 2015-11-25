@@ -4,8 +4,8 @@
 #include "Energia.h"
 #include "display.h"
 
-char dot[1] = {1};
-char empty[1] = {0};
+char dot[2] = {3,3};
+char empty[2] = {0,0};
 
 void setup_display() {
 	OrbitOledInit();
@@ -50,10 +50,11 @@ void put_bitmap_display(const char bitmap[Y_MAX][X_MAX]) {
 
 void erase_ball(Ball theBall) {
 	OrbitOledMoveTo(getPrevX(theBall),getPrevY(theBall));
-	OrbitOledPutBmp(1,1,empty);
+	OrbitOledPutBmp(2,2,empty);
+
 }
 
 void draw_ball(Ball theBall) {
 	OrbitOledMoveTo(getX(theBall),getY(theBall));
-	OrbitOledPutBmp(1,1,dot);
+	OrbitOledPutBmp(2,2,dot);
 }

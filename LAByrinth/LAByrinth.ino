@@ -32,7 +32,6 @@ void setup() {
 	state = INITIAL_STATE;
 	initial_menu();
 }
-
 void loop() {
 	if (state == INITIAL_STATE) {
 		if (get_button(0) || get_button(1)) {
@@ -82,9 +81,7 @@ void loop() {
 		}
 	} else if (state == GAME_STATE) {
 			updateGame();
-			Serial.println(get_accelerometer_x());
-			Serial.println(get_accelerometer_y());
+			Serial.println(getAcclX());
+			Serial.println(getAcclY());
 	}
-
-
 }
