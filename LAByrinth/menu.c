@@ -7,7 +7,12 @@
 #include "button.h"
 #include "menu.h"
 
-char HELP_TEXT[HELP_PAGES][65] = {"Welcome to      	LAByrinth! Use  BTN1 to scroll, BTN2 to return", "Try to reach the end. Tilt to   control the ball", "Twist the knob   to control the speed", "Each level gets harder.         Have fun!"};
+char HELP_TEXT[HELP_PAGES][4][17] = {
+	{"Welcome to", "LAByrinth! Use", "BTN1 to scroll,", "BTN2 to return"}, 
+	{"Try to reach the", "end. Tilt to", "control the", "ball."},
+	{"Twist the knob", "to control the", "speed.", ""},
+	{"Each level gets", "harder.", "", "Have fun!"}
+};
 char TITLE[17] = "LAByrinth";	
 char TITLE_TEXT[TITLE_ROWS][17] = {"Start", "Help"};
 char INITIAL_TEXT[INITIAL_LINES][17] = {"BTN1 - toggle", "BTN2 - select", "", "Press to start"};
@@ -16,14 +21,15 @@ char start_menu_selection;
 char page;
 
 void help_menu() {
-	page = 0;
-	clear_display();
-	put_string_display(HELP_TEXT[page], 0, 0);
+	page = -1;
+	next_help_page();
 }
 void next_help_page() {
+	int i;
 	page = ++page % HELP_PAGES;
 	clear_display();
-	put_string_display(HELP_TEXT[page], 0, 0);
+	for (i = 0; i < 4; i++)
+		put_string_display(HELP_TEXT[page][i], 0, i);
 }
 
 void center_text(const char *s, int row) {
