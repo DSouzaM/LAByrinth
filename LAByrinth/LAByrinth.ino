@@ -86,13 +86,13 @@ void loop() {
 		}
 	} else if (state == GAME_STATE) {
 			updateGame();
-			/*if (checkOn(PITFALL)){
+			if (checkOn(PITFALL)){
 				char msg[64];
 				sprintf(msg, "LEVEL %d FAILED  AVOID PITFALLS! PRESS ANY BUTTON TO CONTINUE",getLevel()+1);
 				pause_menu(msg);
 				state = MENU_STATE;
 				start_menu();	
-			} else */if (checkOn(WIN_POS)) {
+			} else if (checkOn(WIN_POS)) {
 				int lvl = getLevel();
 				if (lvl+1 < NUM_MAPS) {// lvl 0, lvl 1 -> NUM_MAPS = 2
 					char msg[64];
