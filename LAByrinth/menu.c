@@ -67,6 +67,7 @@ void pause_menu(const char *s) {
 	clear_display();
 	put_string_display(s, 0, 0);
 	while (!(get_button(0) || get_button(1)))
+		delay(20);
 		while (get_button(0) || get_button(1))
 			;
 }

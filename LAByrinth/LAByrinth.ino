@@ -56,6 +56,7 @@ void loop() {
 				case 0:
 					state = GAME_STATE;
 					Serial.println("Entering Game State");
+					setLevel(0);
 					setupGame();
 					break;
 				case 1:
@@ -69,12 +70,14 @@ void loop() {
 
 	else if (state == HELP_STATE) {
 		if (get_button(0)) {
+			delay(20);
 			while (get_button(0))
 				;
 			next_help_page();
 		}
 		
 		if (get_button(1)) {
+			delay(20);
 			while (get_button(1))
 				;
 			state = MENU_STATE;
@@ -83,11 +86,29 @@ void loop() {
 		}
 	} else if (state == GAME_STATE) {
 			updateGame();
-			if (checkWin()==1) {
+			/*if (checkOn(PITFALL)){
+				char msg[64];
+				sprintf(msg, "LEVEL %d FAILED  AVOID PITFALLS! PRESS ANY BUTTON TO CONTINUE",getLevel()+1);
+				pause_menu(msg);
 				state = MENU_STATE;
-				Serial.println("Entering Menu State");
-				pause_menu("U R WINAR");
-				start_menu();
+				start_menu();	
+			} else */if (checkOn(WIN_POS)) {
+				int lvl = getLevel();
+				if (lvl+1 < NUM_MAPS) {// lvl 0, lvl 1 -> NUM_MAPS = 2
+					char msg[64];
+					sprintf(msg, "LEVEL %d COMPLETEPRESS ANY BUTTON TO CONTINUE",lvl+1);
+					pause_menu(msg);
+					setLevel(lvl+1);
+					setupGame();
+				} else {
+					char msg[64];
+					sprintf(msg, "CONGRATULATIONS! YOU WON!");
+					pause_menu(msg);
+					state = MENU_STATE;
+					Serial.println("Entering Menu State");
+
+					start_menu();
+				}
 			}
 	}
 }

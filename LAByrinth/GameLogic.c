@@ -11,21 +11,30 @@ char theMap[32][128] = {{0}};
 float dx, dy;
 Ball theBall;
 int fps;
+int level;
 
 //checks whether the player has landed on the right spot to win the current game
 
-int checkWin (){
+int checkOn(char value) {
     int x;
     int y;
     for (x = getX(theBall); x <= getX(theBall) + 1; x++){
     	for (y = getY(theBall); y <= getY(theBall) + 1; y++) {
-    		if (theMap[y][x] == WIN_POS){
+    		if (theMap[y][x] == value){
 				return 1;
     		}
     	}
     }
     return 0;
 }
+void setLevel(int lvl) {
+    level = lvl;
+}
+int getLevel() {
+    return level;
+}
+
+
 
 void setupGame() {
     fps = 1 + get_potentiometer()/30;
@@ -33,7 +42,9 @@ void setupGame() {
     theBall.prev_y = 28;
     theBall.x = 4;
     theBall.y = 28;
-    generateMap(0,theMap);
+
+    generateMap(level,theMap);
+
 
     put_bitmap_display(theMap);
     draw_ball(theBall);
