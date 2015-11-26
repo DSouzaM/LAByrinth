@@ -5,8 +5,6 @@
 #include "ball.h"
 #define X_MAX 128
 #define Y_MAX 32
-#define LETTER_WIDTH 8
-#define LETTER_HEIGHT 8
 
 void setup_display();
 void clear_display();
