@@ -7,6 +7,12 @@ The only requirement given for this project was that it had to revolve around an
 
 In this project, a hardware clone of a popular tabletop game, [labyrinth](https://en.wikipedia.org/wiki/Labyrinth_\(board_game\)) was created. A "ball" is rolled around by a user whose goal is to navigate the ball to the finish without hitting any pitfall which will cause a player to lose.
 
+## Images
+
+<img src="images/startscreen.jpg" alt="Start Screen" width=33% />
+<img src="images/easymap.jpg" alt="Easy Map" width=33% />
+<img src="images/hardmap.jpg" alt="Hard Map" width=33% />
+
 ## Challenges
 There were many challenges faced during this project. At first, not all members were familiar with the tools and technologies that were used in this project. As a result, the first few meetings were spent familiarising everyone with what was being used.
 
