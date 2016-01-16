@@ -3,7 +3,7 @@
 ## Description 
 LAByrinth was written for the final *lab* project of SE101, Introduction to Methods of Software Engineering. It features both the use of I2C serial communication to interact with the accelerometer and parallel communication in order to interact with the switches, buttons and the analog-to-digital converter.
 
-The only requirement given for this project was that it had to revolve around an Arduino clone, the [TI C Series Launchpad](https://www.ti.com/ww/en/launchpad/launchpads-connected-ek-tm4c123gxl.html), and an extension-module, the Digilent Orbit Boosterpack. The Boosterpack came with an accelerometer, potentiometer various buttons and switches and a display.
+The only requirement given for this project was that it had to revolve around an Arduino clone, the [TI C Series Launchpad](https://www.ti.com/ww/en/launchpad/launchpads-connected-ek-tm4c123gxl.html), and an extension-module, the Digilent Orbit Boosterpack. The Boosterpack came with an accelerometer, potentiometer, various buttons and switches, and a display.
 
 In this project, a hardware clone of a popular tabletop game, [labyrinth](https://en.wikipedia.org/wiki/Labyrinth_\(board_game\)) was created. A "ball" is rolled around by a user whose goal is to navigate the ball to the finish without hitting any pitfall which will cause a player to lose.
 
