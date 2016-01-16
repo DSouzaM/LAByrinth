@@ -10,8 +10,8 @@ In this project, a hardware clone of a popular tabletop game, [labyrinth](https:
 ## Images
 
 <img src="images/startscreen.jpg" alt="Start Screen" width=33% />
-<img src="images/easymap.jpg" alt="Easy Map" width=33% />
-<img src="images/hardmap.jpg" alt="Hard Map" width=33% />
+<img src="images/easymaze.jpg" alt="Easy Maze" width=33% />
+<img src="images/hardmaze.jpg" alt="Hard Maze" width=33% />
 
 ## Challenges
 There were many challenges faced during this project. At first, not all members were familiar with the tools and technologies that were used in this project. As a result, the first few meetings were spent familiarising everyone with what was being used.
