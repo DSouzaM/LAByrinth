@@ -1,78 +1,24 @@
 # LAByrinth
 
-## Group Members
-* Matt D'Souza
-* Valeria Hernandez
-* Jing Li
-* Denton Liu
-* Holly Oegema
+## Description 
+LAByrinth was written for the final *lab* project of SE101, Introduction to Methods of Software Engineering. It features both the use of I2C serial communication to interact with the accelerometer and parallel communication in order to interact with the switches, buttons and the analog-to-digital converter.
 
-Description: 
-This project is a labyrinth/maze game in which a "ball" is rolled around a maze with pitfalls and walls. The primary characteristic of the Booster Pack™ that will be utilized by this program is the accelerometer. It is used to control the position of the ball. Other features of the board which can be taken advantage of include: the potentiometer to change the speed of the ball, the buttons to change maps or difficulties, the LED to display to update the users on the state of the game. Finally, our game will have multiple (possibly randomly generated) maps and variable difficulties to satisfy a multitude of users.
+The only requirement given for this project was that it had to revolve around an Arduino clone, the [TI C Series Launchpad](https://www.ti.com/ww/en/launchpad/launchpads-connected-ek-tm4c123gxl.html), and an extension-module, the Digilent Orbit Boosterpack. The Boosterpack came with an accelerometer, potentiometer various buttons and switches and a display.
 
-#Library Functions 
+In this project, a hardware clone of a popular tabletop game, [labyrinth](https://en.wikipedia.org/wiki/Labyrinth_\(board_game\)) was created. A "ball" is rolled around by a user whose goal is to navigate the ball to the finish without hitting any pitfall which will cause a player to lose.
 
-##Development
-void log(char[] str, int n); // logs a character array of size n to PC interface
+## Challenges
+There were many challenges faced during this project. At first, not all members were familiar with the tools and technologies that were used in this project. As a result, the first few meetings were spent familiarising everyone with what was being used.
 
+In addition, there was very little documentation on the usage of the Boosterpack. The only documentation provided was badly commented example code. As a result, creating the abstraction layer for the hardware took many hours of trial and error. 
 
-##Input
-char[2] updateTilt(); // returns x and y tilt values
+## Improvements
+* Randomly generate maps instead of using hard-coded maps.
+* Organise file-structure in order to group files more logically (such as by hardware, gamelogic, etc).
 
-
-##Output
-
-// graphics
-
-
-#Game Logic
-/* General format
-while(true) {
-  update();
-  tick();
-  redraw();
-  
-  
-}
-
-void update() {
-// read inputs
-// change variables
-}
-void tick() {
-// game logic for every time interval
-  void checkWin (char[2]); //Check the ball's current position and whether the user has beaten the game
-}
-void redraw() {
-// graphics and other output
-}
-*/
-
-##Movement
-```
-char determineDirection (char[2], char[2]); // reads in the coordinates and determine which direction the ball will be moving in
-char determineAccel (char[2], char); // reads in the coordinates and direction and determine how much the ball should be accelerated
-
-```
-
-##Display
-```
-void updateBallPosition (char[2]); // displays and updates the ball's new position based on updateTilt();
-void updateWin (bool); //displays the winning message
-
-```
-
-
-##Map Generator
-
-
-
-Insert UML Diagram here
-
-Todo:
-* Accelerometer support
-* Potentiometer support
-* Display routines
-* Clock support for timing
-* EEPROM support to store high scores and stuff
-
+## Contributors
+* [Matt D'Souza](https://github.com/DSouzaM)
+* [Valeria Hernandez](https://github.com/valeria1993)
+* [Jing Li](https://github.com/jingyli)
+* [Denton Liu](https://github.com/Denton-L)
+* [Holly Oegema](https://github.com/heoegema)
